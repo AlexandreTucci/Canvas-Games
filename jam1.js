@@ -26,7 +26,11 @@ const levels = [
     { pos: { x: 250, y: 0.7 }, width: 20, height: 0.3, isHeightPercentage: true },
     { pos: { x: 700, y: 0 }, width: 20, height: 0.4, isHeightPercentage: true },
     { pos: { x: 800, y: 0.5 }, width: 20, height: 0.5, isHeightPercentage: true },
-    { pos: { x: 650, y: 0.7 }, width: 20, height: 0.3, isHeightPercentage: true },
+    { pos: { x: 650, y: 0.8 }, width: 20, height: 0.2, isHeightPercentage: true },
+    { pos: { x: 850, y: 0.25 }, width: 20, height: 0.5, isHeightPercentage: true },
+    { pos: { x: 900, y: 0.10 }, width: 20, height: 0.3, isHeightPercentage: true },
+    { pos: { x: 1050, y: 0.11 }, width: 20, height: 0.3, isHeightPercentage: true },
+    { pos: { x: 1100, y: 0.12 }, width: 20, height: 1, isHeightPercentage: true },
   ],
   [
     { pos: { x: 0, y: 0 }, width: 1, height: 20, isWidthPercentage: true },
@@ -40,6 +44,11 @@ const levels = [
     { pos: { x: 0.72, y: 0.6 }, width: 0.2, height: 20, isWidthPercentage: true },
     { pos: { x: 550, y: 0.2 }, width: 20, height: 0.6, isHeightPercentage: true },
     { pos: { x: 650, y: 0.4 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 750, y: 0.6 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 850, y: 0.1 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 950, y: 0.2 }, width: 20, height: 0.8, isHeightPercentage: true },
+    { pos: { x: 1050, y: 0.09 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 1110, y: 0.4 }, width: 20, height: 0.4, isHeightPercentage: true },
   ],
   [
     { pos: { x: 0, y: 0 }, width: 1, height: 20, isWidthPercentage: true },
@@ -57,23 +66,11 @@ const levels = [
     { pos: { x: 250, y: 0.6 }, width: 20, height: 0.3, isHeightPercentage: true },
     { pos: { x: 350, y: 0.7 }, width: 20, height: 0.3, isHeightPercentage: true },
     { pos: { x: 450, y: 0.3 }, width: 20, height: 0.4, isHeightPercentage: true },
-  ],
-  [
-    { pos: { x: 0, y: 0 }, width: 1, height: 20, isWidthPercentage: true },
-    { pos: { x: 0, y: 0.98 }, width: 0.95, height: 20, isWidthPercentage: true, isHeightPercentage: true },
-    { pos: { x: 0, y: 0 }, width: 20, height: 1, isHeightPercentage: true },
-    { pos: { x: 0.98, y: 0 }, width: 20, height: 1, isWidthPercentage: true, isHeightPercentage: true },
-    { pos: { x: 150, y: 0 }, width: 20, height: 0.4, isHeightPercentage: true },
-    { pos: { x: 250, y: 0.5 }, width: 20, height: 0.5, isHeightPercentage: true },
-    { pos: { x: 350, y: 0 }, width: 20, height: 0.6, isHeightPercentage: true },
-    { pos: { x: 450, y: 0.3 }, width: 20, height: 0.4, isHeightPercentage: true },
-    { pos: { x: 550, y: 0 }, width: 20, height: 0.3, isHeightPercentage: true },
-    { pos: { x: 650, y: 0.6 }, width: 20, height: 0.4, isHeightPercentage: true },
-    { pos: { x: 750, y: 0 }, width: 20, height: 0.5, isHeightPercentage: true },
-    { pos: { x: 200, y: 0.7 }, width: 20, height: 0.3, isHeightPercentage: true },
-    { pos: { x: 300, y: 0.4 }, width: 20, height: 0.3, isHeightPercentage: true },
-    { pos: { x: 400, y: 0.6 }, width: 20, height: 0.3, isHeightPercentage: true },
-    { pos: { x: 500, y: 0.4 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 850, y: 0.3 }, width: 20, height: 0.6, isHeightPercentage: true },
+    { pos: { x: 950, y: 0.09 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 1000, y: 0.3 }, width: 20, height: 0.9, isHeightPercentage: true },
+    { pos: { x: 1050, y: 0.04 }, width: 20, height: 0.1, isHeightPercentage: true },
+    { pos: { x: 1100, y: 0.3 }, width: 20, height: 0.4, isHeightPercentage: true },
   ],
   [
     { pos: { x: 0, y: 0 }, width: 1, height: 20, isWidthPercentage: true },
@@ -90,8 +87,12 @@ const levels = [
     { pos: { x: 820, y: 0.5 }, width: 20, height: 0.3, isHeightPercentage: true },
     { pos: { x: 180, y: 0.6 }, width: 20, height: 0.3, isHeightPercentage: true },
     { pos: { x: 280, y: 0.7 }, width: 20, height: 0.3, isHeightPercentage: true },
-    { pos: { x: 380, y: 0.2 }, width: 20, height: 0.4, isHeightPercentage: true },
-  ],
+    { pos: { x: 880, y: 0.7 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 980, y: 0.09 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 1080, y: 0.2 }, width: 20, height: 0.9, isHeightPercentage: true },
+    { pos: { x: 1180, y: 0.2 }, width: 20, height: 0.4, isHeightPercentage: true },
+    { pos: { x: 1280, y: 0.2 }, width: 20, height: 0.6, isHeightPercentage: true },
+  ]
 ];
 
 function setup() {
@@ -103,7 +104,8 @@ function setup() {
 }
 
 function draw() {
-  background(25, 25, 78); // Cor do fundo (céu)
+  // background(25, 25, 78); // Cor do fundo (céu)
+  background(0);
 
   let distToTarget = dist(playerPos.x, playerPos.y, targetPos.x, targetPos.y);
   if (distToTarget < 200) {
@@ -112,7 +114,7 @@ function draw() {
   }
 
   drawTargetEffect();
-  fill(47, 79, 79); // Cor das paredes
+  fill(100, 0, 0); // Cor das paredes
   for (let wall of walls) {
     rect(wall.pos.x, wall.pos.y, wall.width, wall.height);
   }
@@ -125,7 +127,7 @@ function draw() {
   playerVel.normalize().mult(100 * (deltaTime / 1000));
   playerPos.add(playerVel);
 
-  fill(255, 215, 0); // Cor do jogador
+  fill(125); // Cor do jogador
   let angle = playerVel.heading();
   push();
   translate(playerPos.x, playerPos.y);
@@ -168,7 +170,7 @@ function drawTargetEffect() {
   let time = millis() * 0.001;
   let size = 20 + 10 * sin(time * 2);
   let glow = map(sin(time * 3), -1, 1, 100, 255);
-  fill(255, 255, 0, glow);
+  fill(255, glow);
   ellipse(0, 0, size, size);
   pop();
 }
@@ -191,7 +193,7 @@ function createParticle() {
 }
 
 function updateParticles() {
-  fill(255, 215, 0, 150);
+  fill(255, 150);
   for (let i = particles.length - 1; i >= 0; i--) {
     let p = particles[i];
     p.pos.add(p.vel);
