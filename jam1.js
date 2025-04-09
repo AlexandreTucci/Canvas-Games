@@ -1,14 +1,12 @@
-// Declare all global variables at the top
-let playerPos = null; // Initialize as null, will be set in setup()
-let targetPos = null; // Initialize as null, will be set in setup()
+let playerPos = null;
+let targetPos = null;
 let playerVel = null;
 let walls = [];
 let particles = [];
 let currentLevel = 0;
-let score = 0; // Variável para armazenar o score
+let score = 0;
 
-// Define levels without using createVector() in the global scope
-// Use plain objects with x, y coordinates, and convert to vectors later
+// Definição dos levels do jogo, cada level contém um conjunto de paredes
 const levels = [
   [
     { pos: { x: 0, y: 0 }, width: 1, height: 20, isWidthPercentage: true },
@@ -78,7 +76,6 @@ const levels = [
     { pos: { x: 0, y: 0 }, width: 20, height: 1, isHeightPercentage: true },
     { pos: { x: 0.98, y: 0 }, width: 20, height: 1, isWidthPercentage: true, isHeightPercentage: true },
     { pos: { x: 150, y:  0 }, width: 20, height: 0.4, isHeightPercentage: true },
-    // { pos: { x: 250, y: 0.5 }, width: 20, height: 0.5, isHeightPercentage: true },
     { pos: { x: 350, y: 0 }, width: 20, height: 0.6, isHeightPercentage: true },
     { pos: { x: 450, y: 0.3 }, width: 20, height: 0.4, isHeightPercentage: true },
     { pos: { x: 550, y: 0 }, width: 20, height: 0.3, isHeightPercentage: true },
@@ -112,38 +109,44 @@ const levels = [
   ]
 ];
 
+// Configuração inicial do jogo
 function setup() {
-  createCanvas(windowWidth, windowHeight); // Define a tela cheia
-  playerPos = createVector(50, height / 2); // Posição inicial do jogador
-  targetPos = createVector(width - 40, height - 40); // Inicializamos targetPos aqui
+  createCanvas(windowWidth, windowHeight); // Cria o canvas com o tamanho da janela
+  playerPos = createVector(50, height / 2); // Define a posição inicial do jogador
+  targetPos = createVector(width - 60, height - 20); // Define a posição do alvo
   loadLevel(currentLevel); // Carrega o nível inicial
-  score = 0; // Inicializa o score
+  score = 0; // Inicializa a pontuação
 }
 
+// Função principal de desenho, chamada a cada frame
 function draw() {
-  // background(25, 25, 78); // Cor do fundo (céu)
-  background(0);
+  background(0);  // Cor do fundo
 
+  // Calcula a distância entre o jogador e o alvo
   let distToTarget = dist(playerPos.x, playerPos.y, targetPos.x, targetPos.y);
+
   if (distToTarget < 200) {
+    // Aplica um efeito visual baseado na proximidade do jogador ao alvo
     let colorShift = map(distToTarget, 0, 200, 0, 50);
     tint(0, 0, 0, colorShift);
   }
 
-  drawTargetEffect();
+  drawTargetEffect(); // Desenha o efeito visual do alvo
   fill(100, 0, 0); // Cor das paredes
   for (let wall of walls) {
     rect(wall.pos.x, wall.pos.y, wall.width, wall.height);
   }
 
-  spawnParticles();
-  updateParticles();
+  spawnParticles(); // Gera novas partículas
+  updateParticles(); // Atualiza as partículas existentes
 
+  // Calcula a direção e velocidade do jogador com base na posição do mouse
   let mousePos = createVector(mouseX, mouseY);
   playerVel = mousePos.copy().sub(playerPos);
-  playerVel.normalize().mult(100 * (deltaTime / 1000));
-  playerPos.add(playerVel);
+  playerVel.normalize().mult(200 * (deltaTime / 1000)); // Ajusta a velocidade com base no tempo
+  playerPos.add(playerVel); // Atualiza a posição do jogador
 
+  // Desenha o jogador como um triângulo rotacionado na direção do movimento
   fill(125); // Cor do jogador
   let angle = playerVel.heading();
   push();
@@ -152,117 +155,128 @@ function draw() {
   triangle(-20, -10, -20, 10, 20, 0);
   pop();
 
-  for (let wall of walls) {
-    if (
-      playerPos.x - 20 < wall.pos.x + wall.width &&
-      playerPos.x + 20 > wall.pos.x &&
-      playerPos.y - 10 < wall.pos.y + wall.height &&
-      playerPos.y + 10 > wall.pos.y
-    ) {
-      playerPos.set(50, height / 2); // Reinicia ao colidir
-      break;
-    }
-  }
-
+// Verifica colisões entre o jogador e as paredes
+for (let wall of walls) {
   if (
-    playerPos.x + 20 >= targetPos.x &&
-    playerPos.y + 10 >= targetPos.y &&
-    playerPos.x - 20 <= targetPos.x + 20 &&
-    playerPos.y - 10 <= targetPos.y + 20
+    playerPos.x - 20 < wall.pos.x + wall.width &&
+    playerPos.x + 20 > wall.pos.x &&
+    playerPos.y - 10 < wall.pos.y + wall.height &&
+    playerPos.y + 10 > wall.pos.y
   ) {
-    nextLevel(); // Avança para o próximo nível
+    playerPos.set(50, height / 2); // Reinicia a posição do jogador ao colidir
+    break;
   }
-
-  // Exibir o score e o nível na tela
-  fill(255); // Cor do texto (branco)
-  textSize(24); // Tamanho do texto
-  textAlign(LEFT, TOP); // Alinhamento do texto (esquerda, topo)
-  text(`Score: ${score}`, 10, 10); // Exibe o score no canto superior esquerdo
-  text(`Level: ${currentLevel + 1}`, 10, 40); // Exibe o nível abaixo do score
 }
 
+// Verifica se o jogador alcançou o alvo
+if (
+  playerPos.x + 20 >= targetPos.x &&
+  playerPos.y + 10 >= targetPos.y &&
+  playerPos.x - 20 <= targetPos.x + 20 &&
+  playerPos.y - 10 <= targetPos.y + 20
+) {
+  nextLevel(); // Avança para o próximo nível
+}
+
+// Exibe o score e o nível atual na tela
+fill(255); // Cor do texto (branco)
+textSize(24); // Tamanho do texto
+textAlign(LEFT, TOP); // Alinhamento do texto
+text(`Score: ${score}`, 10, 10); // Exibe o score
+text(`Level: ${currentLevel + 1}`, 10, 40); // Exibe o nível
+}
+
+// Função para desenhar o efeito visual do alvo
 function drawTargetEffect() {
-  push();
-  translate(targetPos.x + 10, targetPos.y + 10);
-  let time = millis() * 0.001;
-  let size = 20 + 10 * sin(time * 2);
-  let glow = map(sin(time * 3), -1, 1, 100, 255);
-  fill(255, glow);
-  ellipse(0, 0, size, size);
-  pop();
+push();
+translate(targetPos.x + 10, targetPos.y + 10);
+let time = millis() * 0.001; // Tempo em segundos
+let size = 20 + 10 * sin(time * 2); // Tamanho pulsante
+let glow = map(sin(time * 3), -1, 1, 100, 255); // Brilho pulsante
+fill(255, glow);
+ellipse(0, 0, size, size); // Desenha o alvo como um círculo
+pop();
 }
 
+// Função para gerar novas partículas
 function spawnParticles() {
-  let numParticles = 5;
-  if (frameCount % 5 === 0) {
-    for (let i = 0; i < numParticles; i++) {
-      particles.push(createParticle());
-    }
+let numParticles = 5; // Número de partículas geradas por vez
+if (frameCount % 5 === 0) { // Gera partículas a cada 5 frames
+  for (let i = 0; i < numParticles; i++) {
+    particles.push(createParticle());
   }
 }
+}
 
+// Função para criar uma nova partícula
 function createParticle() {
-  let angle = random(TWO_PI);
-  let speed = random(1, 3);
-  let pos = createVector(targetPos.x + 10, targetPos.y + 10);
-  let vel = createVector(cos(angle) * speed, sin(angle) * speed);
-  return { pos, vel };
+let angle = random(TWO_PI); // Ângulo aleatório
+let speed = random(1, 3); // Velocidade aleatória
+let pos = createVector(targetPos.x + 10, targetPos.y + 10); // Posição inicial da partícula
+let vel = createVector(cos(angle) * speed, sin(angle) * speed); // Velocidade da partícula
+return { pos, vel }; // Retorna a partícula como um objeto
 }
 
+// Função para atualizar as partículas existentes
 function updateParticles() {
-  fill(255, 150);
-  for (let i = particles.length - 1; i >= 0; i--) {
-    let p = particles[i];
-    p.pos.add(p.vel);
-    ellipse(p.pos.x, p.pos.y, 5, 5);
-    if (dist(p.pos.x, p.pos.y, playerPos.x, playerPos.y) < 20) {
-      particles.splice(i, 1); // Remove a partícula
-      score += 1; // Incrementa o score
-    }
+fill(255, 150); // Cor das partículas
+for (let i = particles.length - 1; i >= 0; i--) {
+  let p = particles[i];
+  p.pos.add(p.vel); // Atualiza a posição da partícula
+  ellipse(p.pos.x, p.pos.y, 5, 5); // Desenha a partícula
+  if (dist(p.pos.x, p.pos.y, playerPos.x, playerPos.y) < 20) {
+    particles.splice(i, 1); // Remove a partícula se o jogador a coletar
+    score += 1; // Incrementa o score
   }
 }
+}
 
+// Função para carregar um nível específico
 function loadLevel(levelIndex) {
-  walls = levels[levelIndex].map(wall => {
-    let posX = wall.pos.x;
-    let posY = wall.pos.y;
-    let wallWidth = wall.width;
-    let wallHeight = wall.height;
+walls = levels[levelIndex].map(wall => {
+  let posX = wall.pos.x;
+  let posY = wall.pos.y;
+  let wallWidth = wall.width;
+  let wallHeight = wall.height;
 
-    if (wall.isWidthPercentage) {
-      posX = wall.pos.x * width;
-      wallWidth = wall.width * width;
-    }
-    if (wall.isHeightPercentage) {
-      posY = wall.pos.y * height;
-      wallHeight = wall.height * height;
-    }
-
-    return {
-      pos: createVector(posX, posY),
-      width: wallWidth,
-      height: wallHeight
-    };
-  });
-
-  for (let wall of walls) {
-    if (wall.width > width) wall.width = width;
-    if (wall.height > height) wall.height = height;
+  // Ajusta as dimensões das paredes com base no tamanho da tela
+  if (wall.isWidthPercentage) {
+    posX = wall.pos.x * width;
+    wallWidth = wall.width * width;
   }
+  if (wall.isHeightPercentage) {
+    posY = wall.pos.y * height;
+    wallHeight = wall.height * height;
+  }
+
+  return {
+    pos: createVector(posX, posY),
+    width: wallWidth,
+    height: wallHeight
+  };
+});
+
+// Garante que as paredes não ultrapassem os limites da tela
+for (let wall of walls) {
+  if (wall.width > width) wall.width = width;
+  if (wall.height > height) wall.height = height;
+}
 }
 
+// Função para avançar para o próximo nível
 function nextLevel() {
-  currentLevel = (currentLevel + 1) % levels.length;
-  playerPos.set(50, height / 2);
-  particles = [];
-  score = 0; // Reinicia o score ao passar de nível (opcional, pode remover se quiser acumular)
-  loadLevel(currentLevel);
+currentLevel = (currentLevel + 1) % levels.length; // Avança para o próximo nível ou reinicia
+playerPos.set(50, height / 2); // Reinicia a posição do jogador
+particles = []; // Remove todas as partículas
+score = 0; // Reinicia o score
+loadLevel(currentLevel); // Carrega o próximo nível
 }
 
+// Função chamada ao redimensionar a janela
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  if (targetPos) {
-    targetPos.set(width - 40, height - 40);
-  }
-  loadLevel(currentLevel);
+resizeCanvas(windowWidth, windowHeight); // Ajusta o tamanho do canvas
+if (targetPos) {
+  targetPos.set(width - 60, height - 20); // Reposiciona o alvo
+}
+loadLevel(currentLevel); // Recarrega o nível atual
 }
